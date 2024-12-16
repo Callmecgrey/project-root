@@ -1,7 +1,13 @@
+// src/pages/index.tsx
+
 import React from 'react';
 import Layout from '../components/common/Layout';
-import JobList from '../components/JobLanding/JobList';
-import type { GetStaticProps } from 'next';
+import Hero from '../components/Hero/Hero';
+import CompanyOverview from '../components/CompanyOverview/CompanyOverview';
+import JobListings from '../components/JobListings/JobListings';
+import Testimonial from '../components/Testimonial/Testimonial';
+import CallToAction from '../components/CallToAction/CallToAction';
+import { GetStaticProps } from 'next';
 import { Job } from '../types';
 
 interface HomeProps {
@@ -11,8 +17,11 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ jobs }) => {
     return (
         <Layout>
-            <h1 className="text-3xl font-bold mb-4">Available Jobs</h1>
-            <JobList jobs={jobs} />
+            <Hero />
+            <CompanyOverview />
+            <JobListings jobs={jobs} />
+            <Testimonial />
+            <CallToAction />
         </Layout>
     );
 };

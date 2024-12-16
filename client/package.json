@@ -9,7 +9,10 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "classnames": "^2.5.1",
+        "lucide-react": "^0.468.0",
         "next": "latest",
+        "radix-ui": "^1.0.1",
         "react": "latest",
         "react-dom": "latest",
         "tailwindcss": "^3.0.0"
