@@ -1,19 +1,24 @@
 // server/src/middleware/authMiddleware.ts
+
 import { Request, Response, NextFunction } from 'express';
+import logger from '../utils/logger';
+
+const ADMIN_ACCESS_CODE = process.env.ADMIN_ACCESS_CODE || 'your_default_access_code';
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    // Implement authentication and authorization logic
-    // For example, check for a valid JWT token in headers
     const authHeader = req.headers.authorization;
+
     if (authHeader && authHeader.startsWith('Bearer ')) {
         const token = authHeader.split(' ')[1];
-        // Verify token logic here
-        // If valid:
-        next();
-        // Else:
-        // res.status(401).json({ message: 'Unauthorized' });
+        if (token === ADMIN_ACCESS_CODE) {
+            next();
+        } else {
+            logger.error('Invalid admin access code');
+            res.status(403).json({ message: 'Forbidden: Invalid access code' });
+        }
     } else {
-        res.status(401).json({ message: 'Unauthorized' });
+        logger.error('No authorization header provided');
+        res.status(401).json({ message: 'Unauthorized: No access code provided' });
     }
 };
 

@@ -1,4 +1,5 @@
-// server/src/services/storageServices.ts
+// server/src/services/storageService.ts
+
 import fs from 'fs/promises';
 import path from 'path';
 import { Job } from '../models/jobModel';
@@ -8,8 +9,16 @@ const dataFilePath = path.join(__dirname, '../data/jobs.json');
 const storageService = {
     // Get all jobs
     getJobs: async (): Promise<Job[]> => {
-        const data = await fs.readFile(dataFilePath, 'utf-8');
-        return JSON.parse(data);
+        try {
+            const data = await fs.readFile(dataFilePath, 'utf-8');
+            return JSON.parse(data);
+        } catch (error) {
+            // If file doesn't exist, return an empty array
+            if (error.code === 'ENOENT') {
+                return [];
+            }
+            throw error;
+        }
     },
 
     // Get job by ID

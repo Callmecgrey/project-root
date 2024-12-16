@@ -1,4 +1,5 @@
 // server/src/utils/logger.ts
+
 const logger = {
     info: (message: string) => {
         console.log(`INFO: ${message}`);
