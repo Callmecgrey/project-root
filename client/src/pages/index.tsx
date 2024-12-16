@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../components/common/Layout';
 import JobList from '../components/JobLanding/JobList';
-import { GetStaticProps } from 'next';
+import type { GetStaticProps } from 'next';
 import { Job } from '../types';
 
 interface HomeProps {
@@ -17,15 +17,19 @@ const Home: React.FC<HomeProps> = ({ jobs }) => {
     );
 };
 
-export const GetStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     // Fetch jobs from the server API or a local JSON file
-    const res = await fetch('http://localhost:3000/api/jobs');
+    const res = await fetch('http://localhost:5009/api/jobs'); // Ensure the correct server port
+    if (!res.ok) {
+        throw new Error('Failed to fetch jobs');
+    }
     const jobs: Job[] = await res.json();
 
     return {
         props: {
             jobs,
         },
+        revalidate: 10, // Optional: Revalidate at most once every 10 seconds
     };
 };
 
