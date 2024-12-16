@@ -6,7 +6,7 @@ This is a job landing page application built with React, Next.js, TypeScript, Ta
 
 - **Frontend**: React, Next.js, TypeScript, TailwindCSS
 - **Backend**: Node.js, Express, TypeScript
-- **Storage**: JSON files, Cloudflare R2 for image uploads
+- **Storage**: JSON files as mongodb and Cloudflare R2 for image uploads
 
 ## Setup Instructions
 
