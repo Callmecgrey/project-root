@@ -1,76 +1,117 @@
-import React, { useState } from 'react';
+// src/components/Apply/ApplyForm.tsx
+
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import Button from '../ui/Button';
+
+interface FormData {
+    name: string;
+    email: string;
+    resume: FileList;
+    coverLetter: string;
+}
+
+const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    resume: Yup.mixed()
+        .required('Resume is required')
+        .test('fileSize', 'File size is too large (Max 5MB)', value => value && value[0]?.size <= 5 * 1024 * 1024), // 5MB
+    coverLetter: Yup.string().required('Cover Letter is required'),
+});
 
 const ApplyForm: React.FC = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        resume: null as File | null,
-        coverLetter: ''
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
+        resolver: yupResolver(validationSchema),
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value, files } = e.target;
-        if (name === 'resume' && files) {
-            setFormData(prev => ({ ...prev, resume: files[0] }));
-        } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
-        }
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Handle form submission
-        console.log(formData);
+    const onSubmit = async (data: FormData) => {
+        // Handle form submission, e.g., send data to API
+        console.log(data);
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        alert('Application Submitted!');
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-            <div className="mb-4">
-                <label className="block text-gray-700">Name</label>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div>
+                <label htmlFor="name" className="block text-gray-700">
+                    Name
+                </label>
                 <input
+                    id="name"
                     type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full border px-3 py-2"
-                    required
+                    {...register('name')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.name ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="Your Full Name"
                 />
+                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
             </div>
-            <div className="mb-4">
-                <label className="block text-gray-700">Email</label>
+
+            <div>
+                <label htmlFor="email" className="block text-gray-700">
+                    Email
+                </label>
                 <input
+                    id="email"
                     type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full border px-3 py-2"
-                    required
+                    {...register('email')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.email ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="you@example.com"
                 />
+                {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
             </div>
-            <div className="mb-4">
-                <label className="block text-gray-700">Resume</label>
+
+            <div>
+                <label htmlFor="resume" className="block text-gray-700">
+                    Resume
+                </label>
                 <input
+                    id="resume"
                     type="file"
-                    name="resume"
-                    onChange={handleChange}
-                    className="w-full"
-                    required
+                    {...register('resume')}
+                    className={`mt-1 block w-full ${
+                        errors.resume ? 'border-red-500' : 'border-gray-300'
+                    } text-gray-700`}
+                    accept=".pdf,.doc,.docx"
                 />
+                {errors.resume && <p className="mt-1 text-sm text-red-500">{errors.resume.message}</p>}
             </div>
-            <div className="mb-4">
-                <label className="block text-gray-700">Cover Letter</label>
+
+            <div>
+                <label htmlFor="coverLetter" className="block text-gray-700">
+                    Cover Letter
+                </label>
                 <textarea
-                    name="coverLetter"
-                    value={formData.coverLetter}
-                    onChange={handleChange}
-                    className="w-full border px-3 py-2"
+                    id="coverLetter"
+                    {...register('coverLetter')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.coverLetter ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     rows={5}
-                    required
+                    placeholder="Your Cover Letter"
                 ></textarea>
+                {errors.coverLetter && <p className="mt-1 text-sm text-red-500">{errors.coverLetter.message}</p>}
             </div>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-                Submit Application
-            </button>
+
+            <div>
+                <Button
+                    variant="primary"
+                    size="lg"
+                    type="submit"
+                    className="w-full"
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                </Button>
+            </div>
         </form>
     );
 };

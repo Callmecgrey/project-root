@@ -568,7 +568,7 @@ const Home: React.FC<HomeProps> = ({ jobs }) => {
 
 export const GetStaticProps: GetStaticProps = async () => {
     // Fetch jobs from the server API or a local JSON file
-    const res = await fetch('http://localhost:3000/api/jobs');
+    const res = await fetch('http://localhost:5009/api/jobs');
     const jobs: Job[] = await res.json();
 
     return {
@@ -605,7 +605,7 @@ export const getServerSideProps = async (context: any) => {
     const { id } = context.params;
 
     // Fetch job data by ID from the server API or a local JSON file
-    const res = await fetch(\`http://localhost:3000/api/jobs/\${id}\`);
+    const res = await fetch(\`http://localhost:5009/api/jobs/\${id}\`);
     const job: Job = await res.json();
 
     return {
@@ -643,7 +643,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params!;
 
     // Fetch job data by ID from the server API or a local JSON file
-    const res = await fetch(\`http://localhost:3000/api/jobs/\${id}\`);
+    const res = await fetch(\`http://localhost:5009/api/jobs/\${id}\`);
     const job: Job = await res.json();
 
     return {
@@ -716,7 +716,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params!;
 
     // Fetch job data by ID from the server API or a local JSON file
-    const res = await fetch(\`http://localhost:3000/api/jobs/\${id}\`);
+    const res = await fetch(\`http://localhost:5009/api/jobs/\${id}\`);
     const job: Job = await res.json();
 
     return {
@@ -765,7 +765,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params!;
 
     // Fetch job data by ID from the server API or a local JSON file
-    const res = await fetch(\`http://localhost:3000/api/jobs/\${id}\`);
+    const res = await fetch(\`http://localhost:5009/api/jobs/\${id}\`);
     const job: Job = await res.json();
 
     return {

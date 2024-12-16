@@ -1,5 +1,77 @@
+/* src/styles/globals.css */
+
+/* 1. Tailwind CSS Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Add any global styles here */
+/* 2. Custom Global Styles */
+
+/* Apply smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Box-sizing reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin for common elements */
+body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+/* Set core body defaults */
+body {
+  font-family: 'Inter', sans-serif; /* Ensure you've imported this font */
+  line-height: 1.5;
+  min-height: 100vh;
+  background-color: #f9fafb; /* Equivalent to bg-gray-50 */
+  color: #1f2937; /* Equivalent to text-gray-800 */
+}
+
+/* Remove list styles on ul, ol elements with a list role */
+ul[role='list'], ol[role='list'] {
+  list-style: none;
+}
+
+/* Set images to be responsive */
+img, picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* Make sure anchors don't have default styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Utility classes for custom components can be added here */
+
+/* 3. Fonts and Typography */
+
+/* Importing Google Fonts (if not using a custom font loader) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* 4. Responsive Design Considerations */
+
+/* You can add custom breakpoints or responsive utilities if needed */
+
+/* 5. Dark Mode (Optional) */
+
+/* If implementing dark mode, include relevant styles here */
+/* Example:
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1f2937; // bg-gray-800
+    color: #f9fafb; // text-gray-50
+  }
+}
+*/

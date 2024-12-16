@@ -1,3 +1,5 @@
+// src/pages/apply/[id].tsx
+
 import React from 'react';
 import Layout from '../../components/common/Layout';
 import ApplyForm from '../../components/Apply/ApplyForm';
@@ -11,8 +13,12 @@ interface ApplyPageProps {
 const ApplyPage: React.FC<ApplyPageProps> = ({ job }) => {
     return (
         <Layout>
-            <h1 className="text-2xl font-bold mb-4">Apply for {job.title}</h1>
-            <ApplyForm />
+            <div className="max-w-2xl mx-auto px-4 py-8">
+                <h1 className="text-3xl font-bold mb-6 text-center">
+                    Apply for <span className="text-blue-700">{job.title}</span>
+                </h1>
+                <ApplyForm />
+            </div>
         </Layout>
     );
 };

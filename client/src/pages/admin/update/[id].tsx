@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params!;
 
     // Fetch job data by ID from the server API or a local JSON file
-    const res = await fetch(`http://localhost:3000/api/jobs/${id}`);
+    const res = await fetch(`http://localhost:5009/api/jobs/${id}`);
     const job: Job = await res.json();
 
     return {
