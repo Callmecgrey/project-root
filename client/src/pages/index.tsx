@@ -18,8 +18,7 @@ const Home: React.FC<HomeProps> = ({ jobs }) => {
 };
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-    // Fetch jobs from the server API or a local JSON file
-    const res = await fetch('http://localhost:5009/api/jobs'); // Ensure the correct server port
+    const res = await fetch('http://localhost:5009/api/jobs');
     if (!res.ok) {
         throw new Error('Failed to fetch jobs');
     }
@@ -29,7 +28,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         props: {
             jobs,
         },
-        revalidate: 10, // Optional: Revalidate at most once every 10 seconds
+        revalidate: 10,
     };
 };
 
