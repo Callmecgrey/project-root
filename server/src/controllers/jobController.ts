@@ -1,3 +1,5 @@
+// server/src/controllers/jobController.ts
+
 import { Request, Response } from 'express';
 import { Job } from '../models/jobModel';
 import storageService from '../services/storageService';

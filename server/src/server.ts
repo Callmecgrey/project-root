@@ -1,3 +1,5 @@
+// server/src/server.ts
+
 import app from './app';
 import logger from './utils/logger';
 

@@ -1,3 +1,5 @@
+// server/src/routes/adminRoutes.ts
+
 import express from 'express';
 import { /* Admin controller functions */ } from '../controllers/adminController';
 import authMiddleware from '../middleware/authMiddleware';

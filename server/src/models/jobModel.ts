@@ -1,3 +1,4 @@
+// server/src/models/jobModel.ts
 export interface Job {
     id: string;
     title: string;

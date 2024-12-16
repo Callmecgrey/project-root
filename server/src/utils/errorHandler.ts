@@ -1,3 +1,5 @@
+// server/src/utils/errorHandler.ts
+
 import { Request, Response, NextFunction } from 'express';
 import logger from './logger';
 

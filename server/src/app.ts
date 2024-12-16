@@ -1,3 +1,5 @@
+// server/src/app.ts
+
 import express from 'express';
 import cors from 'cors';
 import jobRoutes from './routes/jobRoutes';

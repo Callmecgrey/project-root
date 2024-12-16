@@ -1,5 +1,4 @@
-// Import necessary Cloudflare SDK or use API calls
-// This is a placeholder for Cloudflare R2 integration
+// server/src/services/cloudflareServices.ts
 
 const cloudflareService = {
     uploadImage: async (file: Express.Multer.File): Promise<string> => {
