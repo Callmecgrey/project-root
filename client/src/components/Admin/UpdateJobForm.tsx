@@ -1,88 +1,293 @@
-import React, { useState, useEffect } from 'react';
+// src/components/Admin/UpdateJobForm.tsx
+
+import React, { useEffect, useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { Job } from '../../types';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import Button from '../ui/Button';
 import { useRouter } from 'next/router';
 
-const UpdateJobForm: React.FC = () => {
-    const router = useRouter();
-    const { id } = router.query;
+interface UpdateJobFormProps {
+    job: Job;
+}
 
-    const [formData, setFormData] = useState({
-        title: '',
-        company: '',
-        description: '',
-        requirements: '',
-        // Add more fields as needed
+interface FormInputs {
+    title: string;
+    company: string;
+    description: string;
+    requirements: string;
+    responsibilities: string;
+    department: string;
+    location: string;
+    type: string;
+    salary?: string;
+    benefits?: string;
+    mapUrl?: string;
+}
+
+const validationSchema = Yup.object().shape({
+    title: Yup.string().required('Job title is required'),
+    company: Yup.string().required('Company name is required'),
+    description: Yup.string().required('Description is required'),
+    requirements: Yup.string().required('Requirements are required'),
+    responsibilities: Yup.string().required('Responsibilities are required'),
+    department: Yup.string().required('Department is required'),
+    location: Yup.string().required('Location is required'),
+    type: Yup.string().required('Job type is required'),
+    salary: Yup.string(),
+    benefits: Yup.string(),
+    mapUrl: Yup.string().url('Must be a valid URL'),
+});
+
+const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
+    const router = useRouter();
+    const [serverError, setServerError] = useState<string | null>(null);
+
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormInputs>({
+        resolver: yupResolver(validationSchema),
     });
 
     useEffect(() => {
-        if (id) {
-            // Fetch the job data by ID and populate the form
-            // Example:
-            // fetch()
-            //     .then(res => res.json())
-            //     .then(data => setFormData(data));
+        // Pre-fill the form with existing job data
+        reset({
+            title: job.title,
+            company: job.company,
+            description: job.description,
+            requirements: job.requirements.join(', '),
+            responsibilities: job.responsibilities.join(', '),
+            department: job.department,
+            location: job.location,
+            type: job.type,
+            salary: job.salary || '',
+            benefits: job.benefits ? job.benefits.join(', ') : '',
+            mapUrl: job.mapUrl || '',
+        });
+    }, [job, reset]);
+
+    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+        setServerError(null);
+        try {
+            const res = await fetch(`/api/jobs/${job.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...data,
+                    requirements: data.requirements.split(',').map(req => req.trim()),
+                    responsibilities: data.responsibilities.split(',').map(resp => resp.trim()),
+                    benefits: data.benefits ? data.benefits.split(',').map(ben => ben.trim()) : [],
+                }),
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.message || 'Failed to update the job.');
+            }
+
+            alert('Job updated successfully.');
+            router.push('/admin'); // Redirect to admin dashboard
+        } catch (err: any) {
+            setServerError(err.message || 'An unexpected error occurred.');
         }
-    }, [id]);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Handle form submission to update the job
-        console.log(formData);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-            <div className="mb-4">
-                <label className="block text-gray-700">Job Title</label>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div>
+                <label htmlFor="title" className="block text-gray-700">
+                    Job Title
+                </label>
                 <input
+                    id="title"
                     type="text"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    className="w-full border px-3 py-2"
-                    required
+                    {...register('title')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.title ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="Job Title"
                 />
+                {errors.title && <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>}
             </div>
-            <div className="mb-4">
-                <label className="block text-gray-700">Company</label>
+
+            <div>
+                <label htmlFor="company" className="block text-gray-700">
+                    Company
+                </label>
                 <input
+                    id="company"
                     type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full border px-3 py-2"
-                    required
+                    {...register('company')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.company ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="Company Name"
                 />
+                {errors.company && <p className="mt-1 text-sm text-red-500">{errors.company.message}</p>}
             </div>
-            <div className="mb-4">
-                <label className="block text-gray-700">Description</label>
+
+            <div>
+                <label htmlFor="description" className="block text-gray-700">
+                    Description
+                </label>
                 <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    className="w-full border px-3 py-2"
+                    id="description"
+                    {...register('description')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.description ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     rows={5}
-                    required
+                    placeholder="Job Description"
                 ></textarea>
+                {errors.description && <p className="mt-1 text-sm text-red-500">{errors.description.message}</p>}
             </div>
-            <div className="mb-4">
-                <label className="block text-gray-700">Requirements (comma separated)</label>
+
+            <div>
+                <label htmlFor="requirements" className="block text-gray-700">
+                    Requirements (comma separated)
+                </label>
                 <input
+                    id="requirements"
                     type="text"
-                    name="requirements"
-                    value={formData.requirements}
-                    onChange={handleChange}
-                    className="w-full border px-3 py-2"
-                    required
+                    {...register('requirements')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.requirements ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="e.g., React, Node.js, MongoDB"
                 />
+                {errors.requirements && <p className="mt-1 text-sm text-red-500">{errors.requirements.message}</p>}
             </div>
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-                Update Job
-            </button>
+
+            <div>
+                <label htmlFor="responsibilities" className="block text-gray-700">
+                    Responsibilities (comma separated)
+                </label>
+                <input
+                    id="responsibilities"
+                    type="text"
+                    {...register('responsibilities')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.responsibilities ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="e.g., Develop features, Collaborate with team"
+                />
+                {errors.responsibilities && <p className="mt-1 text-sm text-red-500">{errors.responsibilities.message}</p>}
+            </div>
+
+            <div>
+                <label htmlFor="department" className="block text-gray-700">
+                    Department
+                </label>
+                <input
+                    id="department"
+                    type="text"
+                    {...register('department')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.department ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="e.g., Engineering, Marketing"
+                />
+                {errors.department && <p className="mt-1 text-sm text-red-500">{errors.department.message}</p>}
+            </div>
+
+            <div>
+                <label htmlFor="location" className="block text-gray-700">
+                    Location
+                </label>
+                <input
+                    id="location"
+                    type="text"
+                    {...register('location')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.location ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="e.g., New York, Remote"
+                />
+                {errors.location && <p className="mt-1 text-sm text-red-500">{errors.location.message}</p>}
+            </div>
+
+            <div>
+                <label htmlFor="type" className="block text-gray-700">
+                    Job Type
+                </label>
+                <select
+                    id="type"
+                    {...register('type')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.type ? 'border-red-500' : 'border-gray-300'
+                    } bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                >
+                    <option value="">Select Type</option>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Internship">Internship</option>
+                </select>
+                {errors.type && <p className="mt-1 text-sm text-red-500">{errors.type.message}</p>}
+            </div>
+
+            <div>
+                <label htmlFor="salary" className="block text-gray-700">
+                    Salary
+                </label>
+                <input
+                    id="salary"
+                    type="text"
+                    {...register('salary')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.salary ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="e.g., $80,000 - $100,000"
+                />
+                {errors.salary && <p className="mt-1 text-sm text-red-500">{errors.salary.message}</p>}
+            </div>
+
+            <div>
+                <label htmlFor="benefits" className="block text-gray-700">
+                    Benefits (comma separated)
+                </label>
+                <input
+                    id="benefits"
+                    type="text"
+                    {...register('benefits')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.benefits ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="e.g., Health Insurance, 401k"
+                />
+                {errors.benefits && <p className="mt-1 text-sm text-red-500">{errors.benefits.message}</p>}
+            </div>
+
+            <div>
+                <label htmlFor="mapUrl" className="block text-gray-700">
+                    Map URL
+                </label>
+                <input
+                    id="mapUrl"
+                    type="url"
+                    {...register('mapUrl')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.mapUrl ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="https://maps.google.com/..."
+                />
+                {errors.mapUrl && <p className="mt-1 text-sm text-red-500">{errors.mapUrl.message}</p>}
+            </div>
+
+            {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
+
+            <div>
+                <Button
+                    variant="primary"
+                    size="lg"
+                    type="submit"
+                    className="w-full"
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? 'Updating...' : 'Update Job'}
+                </Button>
+            </div>
         </form>
     );
 };

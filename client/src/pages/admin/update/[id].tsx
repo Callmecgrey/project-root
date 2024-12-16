@@ -1,8 +1,11 @@
+// src/pages/admin/jobs/[id]/update.tsx
+
 import React from 'react';
 import Layout from '../../../components/common/Layout';
 import UpdateJobForm from '../../../components/Admin/UpdateJobForm';
 import { GetServerSideProps } from 'next';
 import { Job } from '../../../types';
+import Head from 'next/head';
 
 interface UpdateJobPageProps {
     job: Job;
@@ -11,8 +14,17 @@ interface UpdateJobPageProps {
 const UpdateJobPage: React.FC<UpdateJobPageProps> = ({ job }) => {
     return (
         <Layout>
-            <h1 className="text-2xl font-bold mb-4">Update Job</h1>
-            <UpdateJobForm />
+            <Head>
+                <title>Update Job - {job.title} | Admin Dashboard</title>
+            </Head>
+            <div className="max-w-3xl mx-auto px-4 py-8">
+                <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
+                    Update Job
+                </h1>
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <UpdateJobForm job={job} />
+                </div>
+            </div>
         </Layout>
     );
 };
@@ -20,15 +32,28 @@ const UpdateJobPage: React.FC<UpdateJobPageProps> = ({ job }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params!;
 
-    // Fetch job data by ID from the server API or a local JSON file
-    const res = await fetch(`http://localhost:5009/api/jobs/${id}`);
-    const job: Job = await res.json();
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/jobs/${id}`);
 
-    return {
-        props: {
-            job,
-        },
-    };
+        if (!res.ok) {
+            return {
+                notFound: true,
+            };
+        }
+
+        const job: Job = await res.json();
+
+        return {
+            props: {
+                job,
+            },
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            notFound: true,
+        };
+    }
 };
 
 export default UpdateJobPage;

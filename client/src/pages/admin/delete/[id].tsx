@@ -1,29 +1,36 @@
+// src/pages/admin/jobs/[id]/delete.tsx
+
 import React from 'react';
-import { useRouter } from 'next/router';
 import Layout from '../../../components/common/Layout';
 import DeleteJobButton from '../../../components/Admin/DeleteJobButton';
 import { GetServerSideProps } from 'next';
 import { Job } from '../../../types';
+import Head from 'next/head';
 
 interface DeleteJobPageProps {
     job: Job;
 }
 
 const DeleteJobPage: React.FC<DeleteJobPageProps> = ({ job }) => {
-    const router = useRouter();
-
-    const handleDelete = () => {
-        // Implement deletion logic
-        console.log(`Deleting job with ID: ${job.id}`);
-        // After deletion, redirect to admin dashboard
-        router.push('/admin');
-    };
-
     return (
         <Layout>
-            <h1 className="text-2xl font-bold mb-4">Delete Job</h1>
-            <p>Are you sure you want to delete the job "{job.title}"?</p>
-            <DeleteJobButton jobId={job.id} />
+            <Head>
+                <title>Delete Job - {job.title} | Admin Dashboard</title>
+            </Head>
+            <div className="max-w-3xl mx-auto px-4 py-8">
+                <h1 className="text-3xl font-bold mb-6 text-center text-red-600">
+                    Delete Job
+                </h1>
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-2xl font-semibold mb-4">
+                        Are you sure you want to delete the job "{job.title}"?
+                    </h2>
+                    <p className="text-gray-700 mb-6">
+                        This action cannot be undone. The job posting will be permanently removed from the platform.
+                    </p>
+                    <DeleteJobButton jobId={job.id} />
+                </div>
+            </div>
         </Layout>
     );
 };
@@ -31,15 +38,28 @@ const DeleteJobPage: React.FC<DeleteJobPageProps> = ({ job }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params!;
 
-    // Fetch job data by ID from the server API or a local JSON file
-    const res = await fetch(`http://localhost:5009/api/jobs/${id}`);
-    const job: Job = await res.json();
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/jobs/${id}`);
 
-    return {
-        props: {
-            job,
-        },
-    };
+        if (!res.ok) {
+            return {
+                notFound: true,
+            };
+        }
+
+        const job: Job = await res.json();
+
+        return {
+            props: {
+                job,
+            },
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            notFound: true,
+        };
+    }
 };
 
 export default DeleteJobPage;
