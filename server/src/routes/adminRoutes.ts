@@ -1,21 +1,26 @@
 // server/src/routes/adminRoutes.ts
 
 import express from 'express';
-import { adminDashboard } from '../controllers/adminController';
+import { createJob, updateJob, deleteJob } from '../controllers/adminController';
 import authMiddleware from '../middleware/authMiddleware';
+import multer from 'multer';
 
 const router = express.Router();
+
+// Configure multer for handling file uploads (company logos)
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Protect all admin routes with authentication middleware
 router.use(authMiddleware);
 
-// Example admin route
-router.get('/dashboard', adminDashboard);
+// Create a new job
+router.post('/jobs', upload.single('companyLogo'), createJob);
 
-// Future admin routes can be added here
-// For instance:
-// router.post('/jobs', upload.single('companyLogo'), createJob);
-// router.put('/jobs/:id', upload.single('companyLogo'), updateJob);
-// router.delete('/jobs/:id', deleteJob);
+// Update an existing job
+router.put('/jobs/:id', upload.single('companyLogo'), updateJob);
+
+// Delete a job
+router.delete('/jobs/:id', deleteJob);
 
 export default router;
