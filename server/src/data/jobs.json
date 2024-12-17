@@ -57,5 +57,20 @@
     ],
     "mapUrl": "https://maps.google.com/?q=New+York,+NY",
     "companyLogo": "https://storage.eliteresidences.cloud/company-logos/elite-solutions.png"
-  }  
+  },
+  {
+    "id": "c26285a4bf-e34c26ffss62",
+    "title": "Senior Software Engineer",
+    "company": "TechCorp",
+    "description": "We are looking for a Senior Software Engineer...",
+    "responsibilities": ["Develop features", "Collaborate with team"],
+    "department": "Engineering",
+    "location": "New York, Remote",
+    "type": "Full-Time",
+    "requirements": ["React", "Node.js", "MongoDB"],
+    "salary": "$120,000 - $140,000",
+    "benefits": ["Health Insurance", "401k"],
+    "mapUrl": "https://maps.google.com/?q=New+York",
+    "companyLogo": "https://example.com/logo.png"
+  }
 ]
