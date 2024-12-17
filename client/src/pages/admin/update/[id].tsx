@@ -1,4 +1,4 @@
-// src/pages/admin/jobs/[id]/update.tsx
+// src/pages/admin/update/[id].tsx
 
 import React from 'react';
 import Layout from '../../../components/common/Layout';
