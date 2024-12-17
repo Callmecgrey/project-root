@@ -61,47 +61,48 @@ This backend server serves as the core for a Job Landing Page application, enabl
    git clone https://github.com/callmecgrey/project-root.git
    cd server
 
-Install Dependencies
-Ensure you have Node.js and npm installed.
+- Install Dependencies
 
-npm install
-Configure Environment Variables
-Create a .env file in the root directory and populate it with the necessary environment variables as shown in the Environment Variables section.
-Build the Project
-Compile TypeScript to JavaScript.
+- Ensure you have Node.js and npm installed.
 
-npm run build
-Start the Server
-npm start
-For development purposes with automatic restarts on code changes, you can use:
+- npm install
+- Configure Environment Variables
+- Create a .env file in the root directory and populate it with the necessary environment variables as shown in the Environment Variables section.
+- Build the Project
+- Compile TypeScript to JavaScript.
 
-npm run dev
-Environment Variables
+- npm run build
+- Start the Server
+- npm start
+- For development purposes with automatic restarts on code changes, you can use:
 
-Ensure that all sensitive information is stored securely in the .env file. Do not commit this file to version control.
+- npm run dev
+- Environment Variables
+
+- Ensure that all sensitive information is stored securely in the .env file. Do not commit this file to version control.
 
 ---
 
 ## Environment Variables
 
-PORT=5009
-NODE_ENV=development
+- PORT=5009
+- NODE_ENV=development
 
 ---
 
 ## Admin Authentication
 
-ADMIN_ACCESS_CODE=your_secure_admin_access_code
+- ADMIN_ACCESS_CODE=your_secure_admin_access_code
 
 ---
 
 ## Cloudflare R2 Configuration
 
-CLOUDFLARE_ACCOUNT_ID=your_cloudflare_account_id
-CLOUDFLARE_ACCESS_KEY_ID=your_cloudflare_access_key_id
-CLOUDFLARE_SECRET_ACCESS_KEY=your_cloudflare_secret_access_key
-CLOUDFLARE_R2_BUCKET_NAME=your_r2_bucket_name
-CLOUDFLARE_R2_ENDPOINT=<https://your-account-id.r2.cloudflarestorage.com>
+- CLOUDFLARE_ACCOUNT_ID=your_cloudflare_account_id
+- CLOUDFLARE_ACCESS_KEY_ID=your_cloudflare_access_key_id
+- CLOUDFLARE_SECRET_ACCESS_KEY=your_cloudflare_secret_access_key
+- CLOUDFLARE_R2_BUCKET_NAME=your_r2_bucket_name
+- CLOUDFLARE_R2_ENDPOINT=<https://your-account-id.r2.cloudflarestorage.com>
 
 ---
 
@@ -113,13 +114,13 @@ CLOUDFLARE_R2_ENDPOINT=<https://your-account-id.r2.cloudflarestorage.com>
 
 ---
 
-Endpoint: GET /api/health
-Description: Checks the health status of the server.
-Authentication: None
-Request Parameters: None
-Request Body: None
-Response:
-Status Code: 200 OK
+- Endpoint: GET /api/health
+- Description: Checks the health status of the server.
+- Authentication: None
+- Request Parameters: None
+- Request Body: None
+- Response:
+- Status Code: 200 OK
 
 ```bash
 Body:
@@ -134,16 +135,17 @@ Body:
 
 ## a. Get All Jobs
 
-Endpoint: GET /api/jobs
-Description: Retrieves a list of all available job listings.
-Authentication: None
-Request Parameters: None
-Request Body: None
-Response:
-Status Code: 200 OK
+- Endpoint: GET /api/jobs
+- Description: Retrieves a list of all available job listings.
+- Authentication: None
+- Request Parameters: None
+- Request Body: None
+- Response:
+- Status Code: 200 OK
+
+Body: Array of job objects.
 
 ```bash
-Body: Array of job objects.
 [
   {
     "id": "job-id-1",
@@ -160,23 +162,23 @@ Body: Array of job objects.
     "benefits": ["Health Insurance", "401k"],
     "mapUrl": "https://maps.google.com/?q=New+York"
   },
-  // ...more jobs
 ]
 ```
 
 ## b. Get Job by ID
 
-Endpoint: GET /api/jobs/:id
-Description: Retrieves details of a specific job by its ID.
-Authentication: None
-Request Parameters:
-id (string, required): The unique identifier of the job.
-Request Body: None
-Response:
-Status Code: 200 OK
+- Endpoint: GET /api/jobs/:id
+- Description: Retrieves details of a specific job by its ID.
+- Authentication: None
+- Request Parameters:
+- id (string, required): The unique identifier of the job.
+- Request Body: None
+- Response:
+- Status Code: 200 OK
+
+Body: Job object.
 
 ```bash
-Body: Job object.
 {
   "id": "job-id-1",
   "title": "Senior Software Engineer",
@@ -194,8 +196,9 @@ Body: Job object.
 }
 ```
 
-```bash
 Status Code: 404 Not Found
+
+```bash
 Body:
 {
   "message": "Job not found."
@@ -204,21 +207,23 @@ Body:
 
 ## c. Apply for a Job
 
-Endpoint: POST /api/jobs/:id/apply
-Description: Submits a job application for a specific job.
-Authentication: None
-Request Parameters:
-id (string, required): The unique identifier of the job.
-Request Body: multipart/form-data
-applicantName (string, required): Full name of the applicant.
-applicantEmail (string, required): Email address of the applicant.
-coverLetter (string, optional): Cover letter text.
-resume (file, required): Resume file (PDF or Word document, max 5MB).
-Response:
-Status Code: 201 Created
+- Endpoint: POST /api/jobs/:id/apply
+- Description: Submits a job application for a specific job.
+- Authentication: None
+- Request Parameters:
+- id (string, required): The unique identifier of the job.
+- Request Body: multipart/form-data
+- applicantName (string, required): Full name of the applicant.
+- applicantEmail (string, required): Email address of the applicant.
+- coverLetter (string, optional): Cover letter text.
+- resume (file, required): Resume file (PDF or Word document, max 5MB).
+
+- Response:
+- Status Code: 201 Created
+
+Body:
 
 ```bash
-Body:
 {
   "message": "Application submitted successfully.",
   "application": {
@@ -229,14 +234,14 @@ Body:
     "coverLetter": "I am excited to apply for this position...",
     "resumeUrl": "<https://your-r2-bucket-url/resumes/1632345678901-resume.pdf>",
     "appliedAt": "2023-10-05T14:48:00.000Z"
-  }
 }
 ```
 
 Status Code: 400 Bad Request (e.g., missing fields or invalid file type)
 
-```bash
 Body:
+
+```bash
 {
   "message": "Invalid file type. Only PDF and Word documents are allowed."
 }
