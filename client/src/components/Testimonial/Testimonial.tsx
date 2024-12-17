@@ -19,7 +19,7 @@ const Testimonial: React.FC = () => {
                     <blockquote className="text-2xl italic mb-8 text-gray-700">
                         "Working at Elite Residences has been an incredible journey. Every day brings new challenges and opportunities to create something truly extraordinary."
                     </blockquote>
-                    <p className="font-semibold text-xl text-blue-700">Jane Doe, Senior Architect</p>
+                    <p className="font-semibold text-xl text-blue-700">Emily Williams, Senior Architect</p>
                 </div>
             </div>
         </section>

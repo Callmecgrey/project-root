@@ -1,10 +1,10 @@
-// src/components/Apply/ApplyForm.tsx
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import Button from '../ui/Button';
+import { useRouter } from 'next/router';
+import { submitApplication } from '../../utils/api';
 
 interface FormData {
     name: string;
@@ -16,23 +16,44 @@ interface FormData {
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    resume: Yup.mixed()
+    resume: Yup.mixed<FileList>()
         .required('Resume is required')
-        .test('fileSize', 'File size is too large (Max 5MB)', value => value && value[0]?.size <= 5 * 1024 * 1024), // 5MB
+        .test(
+            'fileSize',
+            'File size is too large (Max 5MB)',
+            value => value && value.length > 0 && value[0].size <= 5 * 1024 * 1024
+        )
+        .test(
+            'fileType',
+            'Only PDF, DOC, and DOCX files are allowed',
+            value => value && value.length > 0 && ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(value[0].type)
+        ),
     coverLetter: Yup.string().required('Cover Letter is required'),
 });
 
-const ApplyForm: React.FC = () => {
+const ApplyForm: React.FC<{ jobId: string }> = ({ jobId }) => {
+    const router = useRouter();
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
         resolver: yupResolver(validationSchema),
     });
 
     const onSubmit = async (data: FormData) => {
-        // Handle form submission, e.g., send data to API
-        console.log(data);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        alert('Application Submitted!');
+        try {
+            const formData = {
+                applicantName: data.name,
+                applicantEmail: data.email,
+                coverLetter: data.coverLetter,
+                resume: data.resume[0],
+            };
+
+            await submitApplication(jobId, formData);
+
+            alert('Application submitted successfully!');
+            router.push('/');
+        } catch (error: any) {
+            console.error('Error submitting application:', error.message);
+            alert(`Failed to submit application: ${error.message}`);
+        }
     };
 
     return (

@@ -1,7 +1,7 @@
 // src/services/cloudflareServices.ts
 
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { Readable } from 'stream';
+import { S3Client } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -20,34 +20,6 @@ const s3Client = new S3Client({
 
 const cloudflareService = {
     /**
-     * Upload an image to Cloudflare R2.
-     * @param file - The image file uploaded via multer.
-     * @returns URL of the uploaded image.
-     */
-    uploadImage: async (file: Express.Multer.File): Promise<string> => {
-        if (!file) {
-            throw new Error('No file provided.');
-        }
-
-        const objectKey = `images/${Date.now()}-${file.originalname}`;
-
-        const uploadParams = {
-            Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME!,
-            Key: objectKey,
-            Body: Readable.from(file.buffer),
-            ContentType: file.mimetype,
-        };
-
-        try {
-            await s3Client.send(new PutObjectCommand(uploadParams));
-            return `${process.env.CLOUDFLARE_R2_ENDPOINT}/${process.env.CLOUDFLARE_R2_BUCKET_NAME}/${objectKey}`;
-        } catch (error: any) {
-            console.error('Error uploading image:', error);
-            throw new Error('Failed to upload image.');
-        }
-    },
-
-    /**
      * Upload a resume to Cloudflare R2.
      * @param file - The resume file uploaded via multer.
      * @returns URL of the uploaded resume.
@@ -59,16 +31,19 @@ const cloudflareService = {
 
         const objectKey = `resumes/${Date.now()}-${file.originalname}`;
 
-        const uploadParams = {
-            Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME!,
-            Key: objectKey,
-            Body: Readable.from(file.buffer),
-            ContentType: file.mimetype,
-        };
-
         try {
-            await s3Client.send(new PutObjectCommand(uploadParams));
-            return `${process.env.CLOUDFLARE_R2_BUCKET_NAME}.r2.cloudflarestorage.com/${objectKey}`;
+            const upload = new Upload({
+                client: s3Client,
+                params: {
+                    Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME!,
+                    Key: objectKey,
+                    Body: file.buffer, // Automatically calculates Content-Length
+                    ContentType: file.mimetype,
+                },
+            });
+
+            await upload.done();
+            return `${process.env.CLOUDFLARE_R2_ENDPOINT}/${process.env.CLOUDFLARE_R2_BUCKET_NAME}/${objectKey}`;
         } catch (error: any) {
             console.error('Error uploading resume:', error);
             throw new Error('Failed to upload resume.');
