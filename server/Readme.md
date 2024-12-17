@@ -261,13 +261,14 @@ Note: All admin routes require an Authorization header with the format Bearer <A
 
 ## a. Create a Job
 
-Endpoint: POST /api/jobs
-Description: Creates a new job listing.
-Authentication: Required (Authorization: Bearer <ADMIN_ACCESS_CODE>)
-Request Parameters: None
+- Endpoint: POST /api/jobs
+- Description: Creates a new job listing.
+- Authentication: Required (Authorization: Bearer <ADMIN_ACCESS_CODE>)
+- Request Parameters: None
+
+Request Body: application/json
 
 ```bash
-Request Body: application/json
 {
   "title": "Senior Software Engineer",
   "company": "TechCorp",
@@ -284,9 +285,9 @@ Request Body: application/json
 }
 ```
 
-Response:
-Status Code: 201 Created
-Body: Created job object.
+- Response:
+- Status Code: 201 Created
+- Body: Created job object.
 
 ```bash
 {
@@ -324,25 +325,27 @@ Status Code: 401 Unauthorized or 403 Forbidden (Invalid or missing access code)
 
 ## b. Update a Job
 
-Endpoint: PUT /api/jobs/:id
-Description: Updates an existing job listing.
-Authentication: Required (Authorization: Bearer <ADMIN_ACCESS_CODE>)
-Request Parameters:
-id (string, required): The unique identifier of the job.
+- Endpoint: PUT /api/jobs/:id
+- Description: Updates an existing job listing.
+- Authentication: Required (Authorization: Bearer <ADMIN_ACCESS_CODE>)
+- Request Parameters:
+- id (string, required): The unique identifier of the job.
+
+Request Body: application/json (All fields optional; only include fields to update)
 
 ```bash
-Request Body: application/json (All fields optional; only include fields to update)
 {
   "title": "Lead Software Engineer",
   "salary": "$130,000 - $150,000"
 }
 ```
 
-Response:
-Status Code: 200 OK
+- Response:
+- Status Code: 200 OK
+
+Body: Updated job object.
 
 ```bash
-Body: Updated job object.
 {
   "id": "job-id-1",
   "title": "Lead Software Engineer",
@@ -386,22 +389,27 @@ Status Code: 401 Unauthorized or 403 Forbidden (Invalid or missing access code)
 
 ## c. Delete a Job
 
-Endpoint: DELETE /api/jobs/:id
-Description: Deletes a job listing.
-Authentication: Required (Authorization: Bearer <ADMIN_ACCESS_CODE>)
-Request Parameters:
-id (string, required): The unique identifier of the job.
-Request Body: None
+- Endpoint: DELETE /api/jobs/:id
+- Description: Deletes a job listing.
+- Authentication: Required (Authorization: Bearer <ADMIN_ACCESS_CODE>)
+- Request Parameters:
+- id (string, required): The unique identifier of the job.
+- Request Body: None
+
+- Response:
+- Status Code: 204 No Content
+- Body: None
+- Status Code: 404 Not Found (Job not found)
 
 ```bash
-Response:
-Status Code: 204 No Content
-Body: None
-Status Code: 404 Not Found (Job not found)
 {
   "message": "Job not found."
 }
+```
+
 Status Code: 401 Unauthorized or 403 Forbidden (Invalid or missing access code)
+
+```bash
 {
   "message": "Invalid access code."
 }
@@ -409,16 +417,16 @@ Status Code: 401 Unauthorized or 403 Forbidden (Invalid or missing access code)
 
 ## Authentication
 
-Admin Routes: Protected using a Bearer token. Admins must include the Authorization header with the value Bearer <ADMIN_ACCESS_CODE> to access protected routes.
-Example:
+- Admin Routes: Protected using a Bearer token. Admins must include the Authorization header with the value Bearer <ADMIN_ACCESS_CODE> to access protected routes.
+- Example:
 
-Authorization: Bearer your_secure_admin_access_code
-Obtaining the Access Code: The ADMIN_ACCESS_CODE is defined in the .env file and should be securely stored. Share it only with authorized personnel.
+- Authorization: Bearer your_secure_admin_access_code
+- Obtaining the Access Code: The ADMIN_ACCESS_CODE is defined in the .env file and should be securely stored. Share it only with authorized personnel.
 
 ## Running the Server
 
-Ensure Environment Variables are Set
-Ensure all required environment variables are defined in the .env file as described in the Environment Variables section.
+- Ensure Environment Variables are Set
+- Ensure all required environment variables are defined in the .env file as described in the Environment Variables section.
 
 Install Dependencies
 
@@ -444,7 +452,7 @@ For development with automatic restarts on code changes:
 npm run dev
 ```
 
-Server Access
+- Server Access
 The server will run on the port specified in the .env file (default is 5009). Access the health check endpoint to verify:
 
 ```bash
