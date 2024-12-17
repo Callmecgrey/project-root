@@ -4,6 +4,7 @@ import React from 'react';
 import Layout from '../../components/common/Layout';
 import PostJobForm from '../../components/Admin/PostJobForm';
 import Head from 'next/head';
+import withAdminAuth from '../../hoc/withAdminAuth';
 
 const PostJob: React.FC = () => {
     return (
@@ -23,4 +24,4 @@ const PostJob: React.FC = () => {
     );
 };
 
-export default PostJob;
+export default withAdminAuth(PostJob);

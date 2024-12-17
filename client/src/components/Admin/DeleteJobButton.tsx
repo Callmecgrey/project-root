@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Trash2 } from 'lucide-react';
 import classNames from 'classnames';
+import { deleteJob } from '../../utils/api';
 
 interface DeleteJobButtonProps {
     jobId: string;
@@ -23,14 +24,7 @@ const DeleteJobButton: React.FC<DeleteJobButtonProps> = ({ jobId }) => {
         setError(null);
 
         try {
-            const res = await fetch(`/api/jobs/${jobId}`, {
-                method: 'DELETE',
-            });
-
-            if (!res.ok) {
-                throw new Error('Failed to delete the job.');
-            }
-
+            await deleteJob(jobId);
             // Optionally, show a success message
             alert('Job deleted successfully.');
 

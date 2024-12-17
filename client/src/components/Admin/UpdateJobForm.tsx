@@ -1,12 +1,14 @@
 // src/components/Admin/UpdateJobForm.tsx
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Job } from '../../types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import Button from '../ui/Button';
 import { useRouter } from 'next/router';
+import { updateJob } from '../../utils/api';
+import { AuthContext } from '../../contexts/AuthContext';
 
 interface UpdateJobFormProps {
     job: Job;
@@ -24,6 +26,7 @@ interface FormInputs {
     salary?: string;
     benefits?: string;
     mapUrl?: string;
+    companyLogo?: string; // URL to the company logo
 }
 
 const validationSchema = Yup.object().shape({
@@ -38,11 +41,13 @@ const validationSchema = Yup.object().shape({
     salary: Yup.string(),
     benefits: Yup.string(),
     mapUrl: Yup.string().url('Must be a valid URL'),
+    companyLogo: Yup.string().url('Must be a valid URL').optional(),
 });
 
 const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
     const router = useRouter();
     const [serverError, setServerError] = useState<string | null>(null);
+    const { accessCode } = useContext(AuthContext); // Retrieve access code from context
 
     const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormInputs>({
         resolver: yupResolver(validationSchema),
@@ -62,30 +67,33 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
             salary: job.salary || '',
             benefits: job.benefits ? job.benefits.join(', ') : '',
             mapUrl: job.mapUrl || '',
+            companyLogo: job.companyLogo || '',
         });
     }, [job, reset]);
 
     const onSubmit: SubmitHandler<FormInputs> = async (data) => {
         setServerError(null);
         try {
-            const res = await fetch(`/api/jobs/${job.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...data,
-                    requirements: data.requirements.split(',').map(req => req.trim()),
-                    responsibilities: data.responsibilities.split(',').map(resp => resp.trim()),
-                    benefits: data.benefits ? data.benefits.split(',').map(ben => ben.trim()) : [],
-                }),
-            });
-
-            if (!res.ok) {
-                const errorData = await res.json();
-                throw new Error(errorData.message || 'Failed to update the job.');
+            if (!accessCode) {
+                throw new Error('Unauthorized access. Please log in again.');
             }
 
+            const updatedData = {
+                title: data.title,
+                company: data.company,
+                description: data.description,
+                requirements: data.requirements.split(',').map(req => req.trim()),
+                responsibilities: data.responsibilities.split(',').map(resp => resp.trim()),
+                department: data.department,
+                location: data.location,
+                type: data.type,
+                salary: data.salary || '',
+                benefits: data.benefits ? data.benefits.split(',').map(ben => ben.trim()) : [],
+                mapUrl: data.mapUrl || '',
+                companyLogo: data.companyLogo || '',
+            };
+
+            const updatedJob: Job = await updateJob(job.id, updatedData, accessCode);
             alert('Job updated successfully.');
             router.push('/admin'); // Redirect to admin dashboard
         } catch (err: any) {
@@ -275,6 +283,22 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.mapUrl && <p className="mt-1 text-sm text-red-500">{errors.mapUrl.message}</p>}
             </div>
 
+            <div>
+                <label htmlFor="companyLogo" className="block text-gray-700">
+                    Company Logo URL (optional)
+                </label>
+                <input
+                    id="companyLogo"
+                    type="url"
+                    {...register('companyLogo')}
+                    className={`mt-1 block w-full rounded-md border ${
+                        errors.companyLogo ? 'border-red-500' : 'border-gray-300'
+                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+                    placeholder="https://example.com/logo.png"
+                />
+                {errors.companyLogo && <p className="mt-1 text-sm text-red-500">{errors.companyLogo.message}</p>}
+            </div>
+
             {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
 
             <div>
@@ -290,6 +314,5 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
             </div>
         </form>
     );
-};
 
 export default UpdateJobForm;

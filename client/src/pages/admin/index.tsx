@@ -4,8 +4,9 @@ import React from 'react';
 import Layout from '../../components/common/Layout';
 import AdminDashboard from '../../components/Admin/AdminDashboard';
 import Head from 'next/head';
+import withAdminAuth from '../../hoc/withAdminAuth';
 
-const Admin: React.FC = () => {
+const AdminPage: React.FC = () => {
     return (
         <Layout>
             <Head>
@@ -18,4 +19,4 @@ const Admin: React.FC = () => {
     );
 };
 
-export default Admin;
+export default withAdminAuth(AdminPage);
