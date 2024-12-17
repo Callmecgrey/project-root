@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "id": "11e1b312-b66a-47aa-87fe-6993d99bbed7",
+    "title": "Customer Relation Assistance",
+    "company": "Elite Residences  Inc",
+    "companyLogo": "https://storage.eliteresidences.cloud/favicon.png",
+    "description": "Luxury estate",
+    "responsibilities": [
+      "sales talks",
+      "customers"
+    ],
+    "department": "Marketing",
+    "location": "Remote",
+    "type": "Contract",
+    "requirements": [
+      "High School Cerification"
+    ],
+    "salary": "$100,000 - $150,000",
+    "benefits": [
+      "401k",
+      "Health Care"
+    ],
+    "mapUrl": "https://maps.app.goo.gl/AkjH7jV2EkNdGxCa7"
+  }
+]

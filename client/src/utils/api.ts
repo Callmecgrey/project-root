@@ -8,36 +8,9 @@
  */
 
 import axios, { AxiosResponse } from 'axios';
-import useAuth from '../hooks/useAuth';
 
 // Base URL configuration
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5009/api';
-
-/**
- * Custom Axios instance to include Authorization header when access code is available.
- */
-const useAxios = () => {
-    const { accessCode } = useAuth();
-
-    const instance = axios.create({
-        baseURL: API_BASE_URL,
-    });
-
-    // Add a request interceptor to include the Authorization header
-    instance.interceptors.request.use(
-        (config) => {
-            if (accessCode) {
-                config.headers['Authorization'] = `Bearer ${accessCode}`;
-            }
-            return config;
-        },
-        (error) => {
-            return Promise.reject(error);
-        }
-    );
-
-    return instance;
-};
 
 /**
  * Fetch all job listings.
@@ -46,8 +19,7 @@ const useAxios = () => {
  */
 export const fetchJobs = async (): Promise<any[]> => {
     try {
-        const axiosInstance = useAxios();
-        const res: AxiosResponse<any[]> = await axiosInstance.get('/jobs');
+        const res: AxiosResponse<any[]> = await axios.get(`${API_BASE_URL}/jobs`);
         return res.data;
     } catch (error: any) {
         console.error('Error fetching jobs:', error);
@@ -63,8 +35,7 @@ export const fetchJobs = async (): Promise<any[]> => {
  */
 export const fetchJobById = async (jobId: string): Promise<any> => {
     try {
-        const axiosInstance = useAxios();
-        const res: AxiosResponse<any> = await axiosInstance.get(`/jobs/${jobId}`);
+        const res: AxiosResponse<any> = await axios.get(`${API_BASE_URL}/jobs/${jobId}`);
         return res.data;
     } catch (error: any) {
         console.error(`Error fetching job with ID ${jobId}:`, error);
@@ -119,6 +90,7 @@ export const submitApplication = async (
  * Create a new job listing (Admin Route).
  * 
  * @param jobData - An object containing all necessary job details.
+ * @param accessCode - The admin access code for authorization.
  * @returns Promise resolving to the created Job object.
  */
 export const createJob = async (jobData: {
@@ -134,10 +106,14 @@ export const createJob = async (jobData: {
     benefits?: string[];
     mapUrl?: string;
     companyLogo?: string; // URL to the company logo
-}): Promise<any> => {
+}, accessCode: string): Promise<any> => {
     try {
-        const axiosInstance = useAxios();
-        const res: AxiosResponse<any> = await axiosInstance.post('/jobs', jobData);
+        const res: AxiosResponse<any> = await axios.post(`${API_BASE_URL}/jobs`, jobData, {
+            headers: {
+                'Authorization': `Bearer ${accessCode}`,
+                'Content-Type': 'application/json',
+            },
+        });
         return res.data;
     } catch (error: any) {
         console.error('Error creating job:', error);
@@ -150,6 +126,7 @@ export const createJob = async (jobData: {
  * 
  * @param jobId - The unique identifier of the job to update.
  * @param updatedData - An object containing the fields to update.
+ * @param accessCode - The admin access code for authorization.
  * @returns Promise resolving to the updated Job object.
  */
 export const updateJob = async (
@@ -167,11 +144,16 @@ export const updateJob = async (
         benefits?: string[];
         mapUrl?: string;
         companyLogo?: string; // URL to the company logo
-    }>
+    }>,
+    accessCode: string
 ): Promise<any> => {
     try {
-        const axiosInstance = useAxios();
-        const res: AxiosResponse<any> = await axiosInstance.put(`/jobs/${jobId}`, updatedData);
+        const res: AxiosResponse<any> = await axios.put(`${API_BASE_URL}/jobs/${jobId}`, updatedData, {
+            headers: {
+                'Authorization': `Bearer ${accessCode}`,
+                'Content-Type': 'application/json',
+            },
+        });
         return res.data;
     } catch (error: any) {
         console.error(`Error updating job with ID ${jobId}:`, error);
@@ -183,12 +165,16 @@ export const updateJob = async (
  * Delete a job listing (Admin Route).
  * 
  * @param jobId - The unique identifier of the job to delete.
+ * @param accessCode - The admin access code for authorization.
  * @returns Promise resolving to a success message or void.
  */
-export const deleteJob = async (jobId: string): Promise<void> => {
+export const deleteJob = async (jobId: string, accessCode: string): Promise<void> => {
     try {
-        const axiosInstance = useAxios();
-        await axiosInstance.delete(`/jobs/${jobId}`);
+        await axios.delete(`${API_BASE_URL}/jobs/${jobId}`, {
+            headers: {
+                'Authorization': `Bearer ${accessCode}`,
+            },
+        });
     } catch (error: any) {
         console.error(`Error deleting job with ID ${jobId}:`, error);
         throw new Error(error.response?.data?.message || 'Failed to delete job');
@@ -199,12 +185,16 @@ export const deleteJob = async (jobId: string): Promise<void> => {
  * (Optional) Fetch all applications for a specific job (Admin Route).
  * 
  * @param jobId - The unique identifier of the job.
+ * @param accessCode - The admin access code for authorization.
  * @returns Promise resolving to an array of Application objects.
  */
-export const fetchApplicationsByJobId = async (jobId: string): Promise<any[]> => {
+export const fetchApplicationsByJobId = async (jobId: string, accessCode: string): Promise<any[]> => {
     try {
-        const axiosInstance = useAxios();
-        const res: AxiosResponse<any[]> = await axiosInstance.get(`/jobs/${jobId}/applications`);
+        const res: AxiosResponse<any[]> = await axios.get(`${API_BASE_URL}/jobs/${jobId}/applications`, {
+            headers: {
+                'Authorization': `Bearer ${accessCode}`,
+            },
+        });
         return res.data;
     } catch (error: any) {
         console.error(`Error fetching applications for job ID ${jobId}:`, error);
@@ -216,14 +206,34 @@ export const fetchApplicationsByJobId = async (jobId: string): Promise<any[]> =>
  * (Optional) Delete an application by its ID (Admin Route).
  * 
  * @param applicationId - The unique identifier of the application to delete.
+ * @param accessCode - The admin access code for authorization.
  * @returns Promise resolving to a success message or void.
  */
-export const deleteApplication = async (applicationId: string): Promise<void> => {
+export const deleteApplication = async (applicationId: string, accessCode: string): Promise<void> => {
     try {
-        const axiosInstance = useAxios();
-        await axiosInstance.delete(`/applications/${applicationId}`);
+        await axios.delete(`${API_BASE_URL}/applications/${applicationId}`, {
+            headers: {
+                'Authorization': `Bearer ${accessCode}`,
+            },
+        });
     } catch (error: any) {
         console.error(`Error deleting application with ID ${applicationId}:`, error);
         throw new Error(error.response?.data?.message || 'Failed to delete application');
+    }
+};
+
+/**
+ * Verify Admin Access Code
+ * 
+ * @param accessCode - The access code to verify
+ * @returns Promise resolving to the verification result
+ */
+export const verifyAccessCode = async (accessCode: string): Promise<{ message: string }> => {
+    try {
+        const res: AxiosResponse<{ message: string }> = await axios.post(`${API_BASE_URL}/verify-access-code`, { accessCode });
+        return res.data;
+    } catch (error: any) {
+        console.error('Error verifying access code:', error);
+        throw new Error(error.response?.data?.message || 'Failed to verify access code.');
     }
 };

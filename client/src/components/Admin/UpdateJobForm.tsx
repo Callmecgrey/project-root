@@ -26,8 +26,10 @@ interface FormInputs {
     salary?: string;
     benefits?: string;
     mapUrl?: string;
-    companyLogo?: string; // URL to the company logo
+    // Removed companyLogo from FormInputs
 }
+
+const DEFAULT_COMPANY_LOGO_URL = 'https://storage.eliteresidences.cloud/favicon.png';
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Job title is required'),
@@ -41,7 +43,7 @@ const validationSchema = Yup.object().shape({
     salary: Yup.string(),
     benefits: Yup.string(),
     mapUrl: Yup.string().url('Must be a valid URL'),
-    companyLogo: Yup.string().url('Must be a valid URL').optional(),
+    // Removed companyLogo validation
 });
 
 const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
@@ -67,7 +69,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
             salary: job.salary || '',
             benefits: job.benefits ? job.benefits.join(', ') : '',
             mapUrl: job.mapUrl || '',
-            companyLogo: job.companyLogo || '',
+            // Removed companyLogo from reset
         });
     }, [job, reset]);
 
@@ -90,7 +92,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 salary: data.salary || '',
                 benefits: data.benefits ? data.benefits.split(',').map(ben => ben.trim()) : [],
                 mapUrl: data.mapUrl || '',
-                companyLogo: data.companyLogo || '',
+                companyLogo: DEFAULT_COMPANY_LOGO_URL, // Set to default URL
             };
 
             const updatedJob: Job = await updateJob(job.id, updatedData, accessCode);
@@ -103,6 +105,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Job Title */}
             <div>
                 <label htmlFor="title" className="block text-gray-700">
                     Job Title
@@ -119,6 +122,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.title && <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>}
             </div>
 
+            {/* Company */}
             <div>
                 <label htmlFor="company" className="block text-gray-700">
                     Company
@@ -135,6 +139,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.company && <p className="mt-1 text-sm text-red-500">{errors.company.message}</p>}
             </div>
 
+            {/* Description */}
             <div>
                 <label htmlFor="description" className="block text-gray-700">
                     Description
@@ -151,6 +156,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.description && <p className="mt-1 text-sm text-red-500">{errors.description.message}</p>}
             </div>
 
+            {/* Requirements */}
             <div>
                 <label htmlFor="requirements" className="block text-gray-700">
                     Requirements (comma separated)
@@ -167,6 +173,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.requirements && <p className="mt-1 text-sm text-red-500">{errors.requirements.message}</p>}
             </div>
 
+            {/* Responsibilities */}
             <div>
                 <label htmlFor="responsibilities" className="block text-gray-700">
                     Responsibilities (comma separated)
@@ -183,6 +190,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.responsibilities && <p className="mt-1 text-sm text-red-500">{errors.responsibilities.message}</p>}
             </div>
 
+            {/* Department */}
             <div>
                 <label htmlFor="department" className="block text-gray-700">
                     Department
@@ -199,6 +207,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.department && <p className="mt-1 text-sm text-red-500">{errors.department.message}</p>}
             </div>
 
+            {/* Location */}
             <div>
                 <label htmlFor="location" className="block text-gray-700">
                     Location
@@ -215,6 +224,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.location && <p className="mt-1 text-sm text-red-500">{errors.location.message}</p>}
             </div>
 
+            {/* Job Type */}
             <div>
                 <label htmlFor="type" className="block text-gray-700">
                     Job Type
@@ -235,6 +245,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.type && <p className="mt-1 text-sm text-red-500">{errors.type.message}</p>}
             </div>
 
+            {/* Salary */}
             <div>
                 <label htmlFor="salary" className="block text-gray-700">
                     Salary
@@ -251,6 +262,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.salary && <p className="mt-1 text-sm text-red-500">{errors.salary.message}</p>}
             </div>
 
+            {/* Benefits */}
             <div>
                 <label htmlFor="benefits" className="block text-gray-700">
                     Benefits (comma separated)
@@ -267,6 +279,7 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.benefits && <p className="mt-1 text-sm text-red-500">{errors.benefits.message}</p>}
             </div>
 
+            {/* Map URL */}
             <div>
                 <label htmlFor="mapUrl" className="block text-gray-700">
                     Map URL
@@ -283,24 +296,10 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
                 {errors.mapUrl && <p className="mt-1 text-sm text-red-500">{errors.mapUrl.message}</p>}
             </div>
 
-            <div>
-                <label htmlFor="companyLogo" className="block text-gray-700">
-                    Company Logo URL (optional)
-                </label>
-                <input
-                    id="companyLogo"
-                    type="url"
-                    {...register('companyLogo')}
-                    className={`mt-1 block w-full rounded-md border ${
-                        errors.companyLogo ? 'border-red-500' : 'border-gray-300'
-                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
-                    placeholder="https://example.com/logo.png"
-                />
-                {errors.companyLogo && <p className="mt-1 text-sm text-red-500">{errors.companyLogo.message}</p>}
-            </div>
-
+            {/* Server Error */}
             {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
 
+            {/* Submit Button */}
             <div>
                 <Button
                     variant="primary"
@@ -314,5 +313,6 @@ const UpdateJobForm: React.FC<UpdateJobFormProps> = ({ job }) => {
             </div>
         </form>
     );
+};
 
 export default UpdateJobForm;

@@ -118,11 +118,11 @@ const AdminDashboard: React.FC = () => {
                                             <td className="py-4 px-6">{job.company}</td>
                                             <td className="py-4 px-6">{job.location}</td>
                                             <td className="py-4 px-6 text-center space-x-4">
-                                                <Link href={`/admin/jobs/${job.id}/update`} className="text-blue-500 hover:text-blue-700 flex items-center space-x-1">
+                                                <Link href={`/admin/update/${job.id}`} className="text-blue-500 hover:text-blue-700 flex items-center space-x-1">
                                                     <Edit className="w-4 h-4" />
                                                     <span>Update</span>
                                                 </Link>
-                                                <Link href={`/admin/jobs/${job.id}/delete`} className="text-red-500 hover:text-red-700 flex items-center space-x-1">
+                                                <Link href={`/admin/delete/${job.id}`} className="text-red-500 hover:text-red-700 flex items-center space-x-1">
                                                     <Trash2 className="w-4 h-4" />
                                                     <span>Delete</span>
                                                 </Link>

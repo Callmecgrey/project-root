@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import jobRoutes from './routes/jobRoutes';
+import authRoutes from './routes/authRoutes';
 import errorHandler from './utils/errorHandler';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -20,6 +21,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/jobs', jobRoutes);
+app.use('/api', authRoutes); // Mount authRoutes on /api
 
 // Health Check Route
 app.get('/api/health', (req, res) => {

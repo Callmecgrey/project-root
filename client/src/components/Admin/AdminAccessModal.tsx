@@ -3,12 +3,13 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import classNames from 'classnames';
-import axios from 'axios';
+import { verifyAccessCode } from '../../utils/api'; // Import the new function
+import { toast } from 'react-toastify'; // Optional: For better user feedback
 
 interface AdminAccessModalProps {}
 
 const AdminAccessModal: React.FC<AdminAccessModalProps> = () => {
-    const { setAccessCode } = useContext(AuthContext);
+    const { setAccessCode } = useContext(AuthContext); // Using setAccessCode instead of setAccessToken
     const [codeInput, setCodeInput] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -19,17 +20,16 @@ const AdminAccessModal: React.FC<AdminAccessModalProps> = () => {
         setError(null);
 
         try {
-            // Replace with your actual API endpoint
-            const response = await axios.post('/api/verify-access-code', { accessCode: codeInput.trim() });
+            const response = await verifyAccessCode(codeInput.trim());
 
-            if (response.data.isValid) {
-                setAccessCode(codeInput.trim());
-            } else {
-                setError('Invalid access code. Please try again.');
-            }
-        } catch (err) {
+            // Assuming the backend returns a success message if valid
+            setAccessCode(codeInput.trim()); // Store the access code in context and localStorage
+            toast.success(response.message);
+            // Optionally, you can close the modal or redirect the user here
+        } catch (err: any) {
             console.error(err);
-            setError('An error occurred while verifying the access code.');
+            setError(err.message || 'An error occurred while verifying the access code.');
+            toast.error(err.message || 'An error occurred while verifying the access code.');
         }
 
         setIsSubmitting(false);
@@ -61,9 +61,35 @@ const AdminAccessModal: React.FC<AdminAccessModalProps> = () => {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                        className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center justify-center"
                     >
-                        {isSubmitting ? 'Verifying...' : 'Submit'}
+                        {isSubmitting ? (
+                            <>
+                                <svg
+                                    className="animate-spin h-5 w-5 mr-3 text-white"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v8H4z"
+                                    ></path>
+                                </svg>
+                                Verifying...
+                            </>
+                        ) : (
+                            'Submit'
+                        )}
                     </button>
                 </form>
             </div>

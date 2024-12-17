@@ -22,8 +22,10 @@ interface FormInputs {
     salary?: string;
     benefits?: string;
     mapUrl?: string;
-    companyLogo?: string; // URL to the company logo
+    // Removed companyLogo from FormInputs as it's no longer editable
 }
+
+const DEFAULT_COMPANY_LOGO_URL = 'https://storage.eliteresidences.cloud/favicon.png';
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Job title is required'),
@@ -37,7 +39,7 @@ const validationSchema = Yup.object().shape({
     salary: Yup.string(),
     benefits: Yup.string(),
     mapUrl: Yup.string().url('Must be a valid URL'),
-    companyLogo: Yup.string().url('Must be a valid URL').optional(),
+    // Removed companyLogo validation
 });
 
 const PostJobForm: React.FC = () => {
@@ -68,10 +70,10 @@ const PostJobForm: React.FC = () => {
                 salary: data.salary || '',
                 benefits: data.benefits ? data.benefits.split(',').map(ben => ben.trim()) : [],
                 mapUrl: data.mapUrl || '',
-                companyLogo: data.companyLogo || '',
+                companyLogo: DEFAULT_COMPANY_LOGO_URL, // Set to default URL
             };
 
-            const createdJob: Job = await createJob(jobData, accessCode);
+            const createdJob: Job = await createJob(jobData, accessCode); // Now passing two arguments
             alert('Job posted successfully.');
             reset();
             router.push('/admin'); // Redirect to admin dashboard
@@ -82,6 +84,7 @@ const PostJobForm: React.FC = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Job Title */}
             <div>
                 <label htmlFor="title" className="block text-gray-700">
                     Job Title
@@ -95,9 +98,14 @@ const PostJobForm: React.FC = () => {
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="Job Title"
                 />
-                {errors.title && <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>}
+                {errors.title && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.title.message}
+                    </p>
+                )}
             </div>
 
+            {/* Company */}
             <div>
                 <label htmlFor="company" className="block text-gray-700">
                     Company
@@ -111,9 +119,14 @@ const PostJobForm: React.FC = () => {
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="Company Name"
                 />
-                {errors.company && <p className="mt-1 text-sm text-red-500">{errors.company.message}</p>}
+                {errors.company && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.company.message}
+                    </p>
+                )}
             </div>
 
+            {/* Description */}
             <div>
                 <label htmlFor="description" className="block text-gray-700">
                     Description
@@ -122,16 +135,26 @@ const PostJobForm: React.FC = () => {
                     id="description"
                     {...register('description')}
                     className={`mt-1 block w-full rounded-md border ${
-                        errors.description ? 'border-red-500' : 'border-gray-300'
+                        errors.description
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     rows={5}
                     placeholder="Job Description"
                 ></textarea>
-                {errors.description && <p className="mt-1 text-sm text-red-500">{errors.description.message}</p>}
+                {errors.description && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.description.message}
+                    </p>
+                )}
             </div>
 
+            {/* Requirements */}
             <div>
-                <label htmlFor="requirements" className="block text-gray-700">
+                <label
+                    htmlFor="requirements"
+                    className="block text-gray-700"
+                >
                     Requirements (comma separated)
                 </label>
                 <input
@@ -139,15 +162,25 @@ const PostJobForm: React.FC = () => {
                     type="text"
                     {...register('requirements')}
                     className={`mt-1 block w-full rounded-md border ${
-                        errors.requirements ? 'border-red-500' : 'border-gray-300'
+                        errors.requirements
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="e.g., React, Node.js, MongoDB"
                 />
-                {errors.requirements && <p className="mt-1 text-sm text-red-500">{errors.requirements.message}</p>}
+                {errors.requirements && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.requirements.message}
+                    </p>
+                )}
             </div>
 
+            {/* Responsibilities */}
             <div>
-                <label htmlFor="responsibilities" className="block text-gray-700">
+                <label
+                    htmlFor="responsibilities"
+                    className="block text-gray-700"
+                >
                     Responsibilities (comma separated)
                 </label>
                 <input
@@ -155,13 +188,20 @@ const PostJobForm: React.FC = () => {
                     type="text"
                     {...register('responsibilities')}
                     className={`mt-1 block w-full rounded-md border ${
-                        errors.responsibilities ? 'border-red-500' : 'border-gray-300'
+                        errors.responsibilities
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="e.g., Develop features, Collaborate with team"
                 />
-                {errors.responsibilities && <p className="mt-1 text-sm text-red-500">{errors.responsibilities.message}</p>}
+                {errors.responsibilities && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.responsibilities.message}
+                    </p>
+                )}
             </div>
 
+            {/* Department */}
             <div>
                 <label htmlFor="department" className="block text-gray-700">
                     Department
@@ -171,13 +211,20 @@ const PostJobForm: React.FC = () => {
                     type="text"
                     {...register('department')}
                     className={`mt-1 block w-full rounded-md border ${
-                        errors.department ? 'border-red-500' : 'border-gray-300'
+                        errors.department
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="e.g., Engineering, Marketing"
                 />
-                {errors.department && <p className="mt-1 text-sm text-red-500">{errors.department.message}</p>}
+                {errors.department && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.department.message}
+                    </p>
+                )}
             </div>
 
+            {/* Location */}
             <div>
                 <label htmlFor="location" className="block text-gray-700">
                     Location
@@ -187,13 +234,20 @@ const PostJobForm: React.FC = () => {
                     type="text"
                     {...register('location')}
                     className={`mt-1 block w-full rounded-md border ${
-                        errors.location ? 'border-red-500' : 'border-gray-300'
+                        errors.location
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="e.g., New York, Remote"
                 />
-                {errors.location && <p className="mt-1 text-sm text-red-500">{errors.location.message}</p>}
+                {errors.location && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.location.message}
+                    </p>
+                )}
             </div>
 
+            {/* Job Type */}
             <div>
                 <label htmlFor="type" className="block text-gray-700">
                     Job Type
@@ -211,9 +265,14 @@ const PostJobForm: React.FC = () => {
                     <option value="Contract">Contract</option>
                     <option value="Internship">Internship</option>
                 </select>
-                {errors.type && <p className="mt-1 text-sm text-red-500">{errors.type.message}</p>}
+                {errors.type && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.type.message}
+                    </p>
+                )}
             </div>
 
+            {/* Salary */}
             <div>
                 <label htmlFor="salary" className="block text-gray-700">
                     Salary
@@ -223,13 +282,20 @@ const PostJobForm: React.FC = () => {
                     type="text"
                     {...register('salary')}
                     className={`mt-1 block w-full rounded-md border ${
-                        errors.salary ? 'border-red-500' : 'border-gray-300'
+                        errors.salary
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="e.g., $80,000 - $100,000"
                 />
-                {errors.salary && <p className="mt-1 text-sm text-red-500">{errors.salary.message}</p>}
+                {errors.salary && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.salary.message}
+                    </p>
+                )}
             </div>
 
+            {/* Benefits */}
             <div>
                 <label htmlFor="benefits" className="block text-gray-700">
                     Benefits (comma separated)
@@ -239,13 +305,20 @@ const PostJobForm: React.FC = () => {
                     type="text"
                     {...register('benefits')}
                     className={`mt-1 block w-full rounded-md border ${
-                        errors.benefits ? 'border-red-500' : 'border-gray-300'
+                        errors.benefits
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="e.g., Health Insurance, 401k"
                 />
-                {errors.benefits && <p className="mt-1 text-sm text-red-500">{errors.benefits.message}</p>}
+                {errors.benefits && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.benefits.message}
+                    </p>
+                )}
             </div>
 
+            {/* Map URL */}
             <div>
                 <label htmlFor="mapUrl" className="block text-gray-700">
                     Map URL
@@ -255,31 +328,25 @@ const PostJobForm: React.FC = () => {
                     type="url"
                     {...register('mapUrl')}
                     className={`mt-1 block w-full rounded-md border ${
-                        errors.mapUrl ? 'border-red-500' : 'border-gray-300'
+                        errors.mapUrl
+                            ? 'border-red-500'
+                            : 'border-gray-300'
                     } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
                     placeholder="https://maps.google.com/..."
                 />
-                {errors.mapUrl && <p className="mt-1 text-sm text-red-500">{errors.mapUrl.message}</p>}
+                {errors.mapUrl && (
+                    <p className="mt-1 text-sm text-red-500">
+                        {errors.mapUrl.message}
+                    </p>
+                )}
             </div>
 
-            <div>
-                <label htmlFor="companyLogo" className="block text-gray-700">
-                    Company Logo URL (optional)
-                </label>
-                <input
-                    id="companyLogo"
-                    type="url"
-                    {...register('companyLogo')}
-                    className={`mt-1 block w-full rounded-md border ${
-                        errors.companyLogo ? 'border-red-500' : 'border-gray-300'
-                    } shadow-sm focus:border-blue-500 focus:ring-blue-500`}
-                    placeholder="https://example.com/logo.png"
-                />
-                {errors.companyLogo && <p className="mt-1 text-sm text-red-500">{errors.companyLogo.message}</p>}
-            </div>
+            {/* Server Error */}
+            {serverError && (
+                <p className="text-red-500 text-sm">{serverError}</p>
+            )}
 
-            {serverError && <p className="text-red-500 text-sm">{serverError}</p>}
-
+            {/* Submit Button */}
             <div>
                 <Button
                     variant="primary"
@@ -293,5 +360,6 @@ const PostJobForm: React.FC = () => {
             </div>
         </form>
     );
+};
 
 export default PostJobForm;

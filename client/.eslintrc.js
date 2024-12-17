@@ -18,6 +18,5 @@ module.exports = {
         },
     },
     rules: {
-        // Customize your rules
     },
 };
