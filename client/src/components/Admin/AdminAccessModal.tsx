@@ -42,24 +42,22 @@ const AdminAccessModal: React.FC<AdminAccessModalProps> = () => {
                             Enter Access Code
                         </label>
                         <input
-                            id="accessCode"
-                            type="password"
-                            value={codeInput}
-                            onChange={(e) => setCodeInput(e.target.value)}
-                            className={classNames(
-                                'mt-1 block w-full rounded-md border shadow-sm focus:border-blue-500 focus:ring-blue-500',
-                                { 'border-red-500': error }
-                            )}
-                            placeholder="Access Code"
-                            required
-                        />
+    id="accessCode"
+    type="password"
+    value={codeInput}
+    onChange={(e) => setCodeInput(e.target.value)}
+    className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring focus:ring-blue-200 focus:ring-opacity-50 focus:border-blue-500 transition-all"
+    placeholder="Access Code"
+    required
+/>
+
                         {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
                     </div>
                     <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center justify-center"
-                    >
+    type="submit"
+    disabled={isSubmitting}
+    className="w-full bg-gradient-to-br from-blue-500 to-blue-700 text-white px-4 py-2 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition-all"
+>
                         {isSubmitting ? (
                             <>
                                 <svg

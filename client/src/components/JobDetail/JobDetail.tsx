@@ -25,8 +25,8 @@ const JobDetail: React.FC<JobDetailProps> = ({ job }) => {
                             <Image
                                 src={job.companyLogo}
                                 alt={`${job.company} Logo`}
-                                width={60}
-                                height={60}
+                                width={70}
+                                height={70}
                                 className="rounded-full object-cover"
                             />
                         ) : (

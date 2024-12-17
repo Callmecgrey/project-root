@@ -29,7 +29,7 @@ interface FormInputs {
     // Removed companyLogo from FormInputs
 }
 
-const DEFAULT_COMPANY_LOGO_URL = 'https://storage.eliteresidences.cloud/favicon.png';
+const DEFAULT_COMPANY_LOGO_URL = 'https://storage.eliteresidences.cloud/bintu.png';
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required('Job title is required'),

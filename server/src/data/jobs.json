@@ -1,1 +1,189 @@
-[]
+[
+  {
+    "id": "b0a8bbdd-fef0-47b0-bd23-a5c522f57d5b",
+    "title": "Sales Representative",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "Sales reps serve as the point of contact between a business and its prospects or clients and have a range of responsibilities including identifying and educating prospective customers while supporting existing clients with information and assistance that relates to products and services.",
+    "responsibilities": [
+      "Establish, develop, and maintain positive business and customer relationships",
+      "Reach out to customer leads through cold calling",
+      "Coordinate sales effort with team members and other departments"
+    ],
+    "department": "Sales",
+    "location": "New York | Hybrid",
+    "type": "Full-Time",
+    "requirements": [
+      "Proven work experience as a Sales Representative",
+      "Familiarity with BRM and CRM practices along with ability to build productive business professional relationships",
+      "Prioritizing, time management, and organizational skills",
+      "Ability to create and deliver presentations tailored to audience needs"
+    ],
+    "salary": "$150,000 - $175,000 Per Year",
+    "benefits": ["Health Insurance", "401K", "Paid Time Off"],
+    "mapUrl": ""
+  },
+  {
+    "id": "a1b2c3d4-e5f6-4712-a234-b5678901cdef",
+    "title": "Software Engineer",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "Responsible for developing scalable software applications and contributing to software architecture decisions.",
+    "responsibilities": [
+      "Write clean, efficient, and maintainable code",
+      "Collaborate with cross-functional teams to design software solutions",
+      "Perform code reviews and mentor junior engineers"
+    ],
+    "department": "Engineering",
+    "location": "San Francisco | Remote",
+    "type": "Full-Time",
+    "requirements": [
+      "2+ years of experience in software development",
+      "Proficiency in JavaScript and Python",
+      "Experience with modern frameworks such as React and Node.js",
+      "Knowledge of cloud services (AWS, Azure)"
+    ],
+    "salary": "$120,000 - $140,000 Per Year",
+    "benefits": ["Health Insurance", "Stock Options", "Flexible Work Hours"],
+    "mapUrl": ""
+  },
+  {
+    "id": "f6e7d8c9-b123-4ef0-8d11-a2b34567890f",
+    "title": "Marketing Specialist",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "Plan, develop, and implement marketing strategies to increase brand awareness and drive business growth.",
+    "responsibilities": [
+      "Create and manage content for campaigns",
+      "Analyze marketing data to identify trends and improve campaigns",
+      "Collaborate with design and content teams"
+    ],
+    "department": "Marketing",
+    "location": "Los Angeles | On-Site",
+    "type": "Part-Time",
+    "requirements": [
+      "Bachelor's degree in Marketing or a related field",
+      "Experience in digital marketing strategies",
+      "Knowledge of SEO and SEM best practices",
+      "Strong communication and analytical skills"
+    ],
+    "salary": "$60,000 - $75,000 Per Year",
+    "benefits": ["Paid Time Off", "Health Insurance", "Training Programs"],
+    "mapUrl": ""
+  },
+  {
+    "id": "a1234b56-c789-0123-4ef5-6d789f01abcd",
+    "title": "Customer Success Manager",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "Ensure customers achieve their desired outcomes and build long-term relationships.",
+    "responsibilities": [
+      "Manage customer accounts and ensure client satisfaction",
+      "Analyze customer feedback to improve services",
+      "Work closely with sales and technical teams"
+    ],
+    "department": "Customer Success",
+    "location": "Chicago | Hybrid",
+    "type": "Full-Time",
+    "requirements": [
+      "Experience in customer-facing roles",
+      "Strong problem-solving and relationship management skills",
+      "Excellent communication and presentation skills"
+    ],
+    "salary": "$85,000 - $95,000 Per Year",
+    "benefits": ["Health Insurance", "Remote Work Option", "Bonuses"],
+    "mapUrl": ""
+  },
+  {
+    "id": "d1e2f3g4-h567-89a0-1234-b56789c0defg",
+    "title": "Project Manager",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "Oversee project timelines, budgets, and resources to deliver high-quality results.",
+    "responsibilities": [
+      "Define project scopes, goals, and deliverables",
+      "Manage project schedules and budgets",
+      "Collaborate with stakeholders to meet deadlines"
+    ],
+    "department": "Project Management",
+    "location": "Boston | Remote",
+    "type": "Contract",
+    "requirements": [
+      "Experience managing complex projects",
+      "Proficiency in project management tools (e.g., Jira, Trello)",
+      "Strong leadership and communication skills"
+    ],
+    "salary": "$90,000 - $110,000 Per Year",
+    "benefits": ["Remote Work Flexibility", "Performance Bonuses"],
+    "mapUrl": ""
+  },
+  {
+    "id": "f8e9d0c1-b234-5678-a901-bcd2e3456789",
+    "title": "UI/UX Designer",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "Design user-friendly interfaces and ensure a seamless user experience.",
+    "responsibilities": [
+      "Conduct user research and create wireframes",
+      "Design intuitive and responsive interfaces",
+      "Collaborate with developers to implement designs"
+    ],
+    "department": "Design",
+    "location": "Seattle | Remote",
+    "type": "Full-Time",
+    "requirements": [
+      "Experience with design tools like Figma and Adobe XD",
+      "Strong portfolio of past UI/UX design work",
+      "Understanding of front-end development basics"
+    ],
+    "salary": "$80,000 - $100,000 Per Year",
+    "benefits": ["Remote Work", "Health Insurance", "Creative Environment"],
+    "mapUrl": ""
+  },
+  {
+    "id": "h1i2j3k4-l567-89mn-0123-o4567pq890rs",
+    "title": "Data Analyst",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "Analyze large data sets and provide actionable insights to stakeholders.",
+    "responsibilities": [
+      "Interpret data and analyze results using statistical techniques",
+      "Develop dashboards to track KPIs",
+      "Collaborate with teams to identify business opportunities"
+    ],
+    "department": "Analytics",
+    "location": "Austin | Hybrid",
+    "type": "Full-Time",
+    "requirements": [
+      "Proficiency in SQL and Excel",
+      "Experience with data visualization tools (e.g., Tableau, Power BI)",
+      "Strong analytical skills and attention to detail"
+    ],
+    "salary": "$70,000 - $85,000 Per Year",
+    "benefits": ["Health Insurance", "Flexible Schedule", "Training Programs"],
+    "mapUrl": ""
+  },
+  {
+    "id": "t1234u56-v789-0123-wxy4-z567890abcde",
+    "title": "Content Writer",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "Craft compelling and engaging content to reach target audiences.",
+    "responsibilities": [
+      "Write articles, blog posts, and social media content",
+      "Edit and proofread content for clarity and consistency",
+      "Research topics and create SEO-friendly content"
+    ],
+    "department": "Content",
+    "location": "Denver | Remote",
+    "type": "Part-Time",
+    "requirements": [
+      "Experience in content creation and writing",
+      "Strong grammar and writing skills",
+      "Ability to work independently and meet deadlines"
+    ],
+    "salary": "$25 - $35 Per Hour",
+    "benefits": ["Remote Work", "Flexible Hours", "Performance Bonuses"],
+    "mapUrl": ""
+  }
+]
