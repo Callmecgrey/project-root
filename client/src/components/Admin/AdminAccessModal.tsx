@@ -3,13 +3,13 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import classNames from 'classnames';
-import { verifyAccessCode } from '../../utils/api'; // Import the new function
-import { toast } from 'react-toastify'; // Optional: For better user feedback
+import { verifyAccessCode } from '../../utils/api';
+import { toast } from 'react-toastify';
 
 interface AdminAccessModalProps {}
 
 const AdminAccessModal: React.FC<AdminAccessModalProps> = () => {
-    const { setAccessCode } = useContext(AuthContext); // Using setAccessCode instead of setAccessToken
+    const { setAccessCode } = useContext(AuthContext);
     const [codeInput, setCodeInput] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -21,11 +21,8 @@ const AdminAccessModal: React.FC<AdminAccessModalProps> = () => {
 
         try {
             const response = await verifyAccessCode(codeInput.trim());
-
-            // Assuming the backend returns a success message if valid
-            setAccessCode(codeInput.trim()); // Store the access code in context and localStorage
+            setAccessCode(codeInput.trim());
             toast.success(response.message);
-            // Optionally, you can close the modal or redirect the user here
         } catch (err: any) {
             console.error(err);
             setError(err.message || 'An error occurred while verifying the access code.');

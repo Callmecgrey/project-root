@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "id": "c26285a4-cc89-4a84-b8bf-e34c26ff8662",
+    "title": "Sales Representative",
+    "company": "Elite Residences",
+    "companyLogo": "https://storage.eliteresidences.cloud/favicon.png",
+    "description": "Test Description",
+    "responsibilities": [
+      "Attend to  customers"
+    ],
+    "department": "Sales",
+    "location": "New York",
+    "type": "Full-Time",
+    "requirements": [
+      "Sales Experience",
+      "Bold Figure"
+    ],
+    "salary": "$ 80,000",
+    "benefits": [
+      "Health Insurance",
+      "401K"
+    ],
+    "mapUrl": "https://google.maps/ssdsdf"
+  }
+]

@@ -28,6 +28,16 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
                 <div className="p-6 overflow-y-auto max-h-[75vh]">
                     {children}
                 </div>
+
+                {/* Footer */}
+                <div className="p-4 border-t flex justify-end">
+                    <button
+                        onClick={onClose}
+                        className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded mr-2"
+                    >
+                        Close
+                    </button>
+                </div>
             </div>
         </div>
     );
