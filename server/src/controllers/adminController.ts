@@ -1,9 +1,8 @@
-// server/src/controllers/adminController.ts
+// src/controllers/adminController.ts
 
 import { Request, Response } from 'express';
 import { Job } from '../models/jobModel';
 import storageService from '../services/storageService';
-import cloudflareService from '../services/cloudflareService';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
@@ -22,34 +21,35 @@ export const createJob = async (req: Request, res: Response) => {
             requirements,
             salary,
             benefits,
+            mapUrl,
+            companyLogo, // Assuming the frontend sends a URL
         } = req.body;
 
-        // Handle image upload if a file is provided
-        let companyLogo: string | undefined = undefined;
-        if (req.file) {
-            companyLogo = await cloudflareService.uploadImage(req.file);
+        // Validate required fields
+        if (!title || !company || !description || !responsibilities || !department || !location || !type || !requirements) {
+            return res.status(400).json({ message: 'Missing required fields.' });
         }
 
         const newJob: Job = {
             id: uuidv4(),
             title,
             company,
-            companyLogo,
+            companyLogo: companyLogo || '',
             description,
             responsibilities: Array.isArray(responsibilities) ? responsibilities : [responsibilities],
             department,
             location,
             type,
             requirements: Array.isArray(requirements) ? requirements : [requirements],
-            salary,
-            benefits: benefits ? (Array.isArray(benefits) ? benefits : [benefits]) : undefined,
-            mapUrl: '', // Optional: Set based on location if needed
+            salary: salary || '',
+            benefits: benefits ? (Array.isArray(benefits) ? benefits : [benefits]) : [],
+            mapUrl: mapUrl || '',
         };
 
         await storageService.addJob(newJob);
         res.status(201).json(newJob);
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to create job', error: error.message });
+    } catch (error: any) {
+        res.status(500).json({ message: 'Failed to create job.', error: error.message });
     }
 };
 
@@ -70,24 +70,20 @@ export const updateJob = async (req: Request, res: Response) => {
             requirements,
             salary,
             benefits,
+            mapUrl,
+            companyLogo, // Optional URL update
         } = req.body;
 
         const existingJob = await storageService.getJobById(jobId);
         if (!existingJob) {
-            return res.status(404).json({ message: 'Job not found' });
-        }
-
-        // Handle image upload if a file is provided
-        let companyLogo = existingJob.companyLogo;
-        if (req.file) {
-            companyLogo = await cloudflareService.uploadImage(req.file);
+            return res.status(404).json({ message: 'Job not found.' });
         }
 
         const updatedJob: Job = {
             ...existingJob,
             title: title || existingJob.title,
             company: company || existingJob.company,
-            companyLogo,
+            companyLogo: companyLogo || existingJob.companyLogo,
             description: description || existingJob.description,
             responsibilities: responsibilities
                 ? Array.isArray(responsibilities)
@@ -108,17 +104,17 @@ export const updateJob = async (req: Request, res: Response) => {
                     ? benefits
                     : [benefits]
                 : existingJob.benefits,
-            mapUrl: existingJob.mapUrl, // Update if necessary
+            mapUrl: mapUrl || existingJob.mapUrl,
         };
 
         const success = await storageService.updateJob(jobId, updatedJob);
         if (success) {
             res.json(updatedJob);
         } else {
-            res.status(404).json({ message: 'Job not found' });
+            res.status(404).json({ message: 'Job not found.' });
         }
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to update job', error: error.message });
+    } catch (error: any) {
+        res.status(500).json({ message: 'Failed to update job.', error: error.message });
     }
 };
 
@@ -132,9 +128,9 @@ export const deleteJob = async (req: Request, res: Response) => {
         if (success) {
             res.status(204).send();
         } else {
-            res.status(404).json({ message: 'Job not found' });
+            res.status(404).json({ message: 'Job not found.' });
         }
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to delete job' });
+    } catch (error: any) {
+        res.status(500).json({ message: 'Failed to delete job.', error: error.message });
     }
 };

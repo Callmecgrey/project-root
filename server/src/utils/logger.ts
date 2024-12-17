@@ -1,4 +1,4 @@
-// server/src/utils/logger.ts
+// src/utils/logger.ts
 
 const logger = {
     info: (message: string) => {

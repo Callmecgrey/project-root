@@ -1,16 +1,1 @@
-[
-    {
-        "id": "1",
-        "title": "Frontend Developer",
-        "company": "Tech Corp",
-        "description": "We are looking for a skilled Frontend Developer...",
-        "requirements": ["React", "TypeScript", "TailwindCSS"]
-    },
-    {
-        "id": "2",
-        "title": "Backend Developer",
-        "company": "Innovate LLC",
-        "description": "Seeking an experienced Backend Developer...",
-        "requirements": ["Node.js", "Express", "TypeScript"]
-    }
-]
+[]

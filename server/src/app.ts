@@ -1,9 +1,9 @@
-// server/src/app.ts
+// src/app.ts
 
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import jobRoutes from './routes/jobRoutes';
-import adminRoutes from './routes/adminRoutes';
 import errorHandler from './utils/errorHandler';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -14,12 +14,12 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
 
 // Middleware
+app.use(helmet()); // Secure HTTP headers
 app.use(cors());
 app.use(express.json());
 
 // Routes
 app.use('/api/jobs', jobRoutes);
-app.use('/api/admin', adminRoutes);
 
 // Health Check Route
 app.get('/api/health', (req, res) => {
