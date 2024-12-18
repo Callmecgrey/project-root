@@ -9,17 +9,23 @@ import Testimonial from '../components/Testimonial/Testimonial';
 import CallToAction from '../components/CallToAction/CallToAction';
 import { GetStaticProps } from 'next';
 import { Job } from '../types';
+import { fetchJobs } from '../utils/api'; // Import fetchJobs
 
 interface HomeProps {
     jobs: Job[];
+    error?: string; // Optional error message
 }
 
-const Home: React.FC<HomeProps> = ({ jobs }) => {
+const Home: React.FC<HomeProps> = ({ jobs, error }) => {
     return (
         <Layout>
             <Hero />
             <CompanyOverview />
-            <JobListings jobs={jobs} />
+            {error ? (
+                <div className="error">Failed to load job listings. Please try again later.</div>
+            ) : (
+                <JobListings jobs={jobs} />
+            )}
             <Testimonial />
             <CallToAction />
         </Layout>
@@ -27,18 +33,27 @@ const Home: React.FC<HomeProps> = ({ jobs }) => {
 };
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-    const res = await fetch('http://localhost:5009/api/jobs');
-    if (!res.ok) {
-        throw new Error('Failed to fetch jobs');
-    }
-    const jobs: Job[] = await res.json();
+    try {
+        const jobs: Job[] = await fetchJobs(); // Use fetchJobs
 
-    return {
-        props: {
-            jobs,
-        },
-        revalidate: 10,
-    };
+        return {
+            props: {
+                jobs,
+            },
+            revalidate: 10, // Revalidate at most once every 10 seconds
+        };
+    } catch (error: any) {
+        console.error('Error in getStaticProps:', error);
+
+        // Return an empty jobs array and an error message
+        return {
+            props: {
+                jobs: [],
+                error: error.message || 'Failed to fetch jobs',
+            },
+            revalidate: 10,
+        };
+    }
 };
 
 export default Home;
