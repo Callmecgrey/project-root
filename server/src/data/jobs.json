@@ -6,7 +6,7 @@
     "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
     "description": "Sales reps serve as the point of contact between a business and its prospects or clients and have a range of responsibilities including identifying and educating prospective customers while supporting existing clients with information and assistance that relates to products and services.",
     "responsibilities": [
-      "Establish, develop, and maintain positive business and customer relationships",
+      "Establish develop and maintain positive business and customer relationships",
       "Reach out to customer leads through cold calling",
       "Coordinate sales effort with team members and other departments"
     ],
@@ -20,7 +20,11 @@
       "Ability to create and deliver presentations tailored to audience needs"
     ],
     "salary": "$150,000 - $175,000 Per Year",
-    "benefits": ["Health Insurance", "401K", "Paid Time Off"],
+    "benefits": [
+      "Health Insurance",
+      "401K",
+      "Paid Time Off"
+    ],
     "mapUrl": ""
   },
   {
@@ -44,7 +48,11 @@
       "Knowledge of cloud services (AWS, Azure)"
     ],
     "salary": "$120,000 - $140,000 Per Year",
-    "benefits": ["Health Insurance", "Stock Options", "Flexible Work Hours"],
+    "benefits": [
+      "Health Insurance",
+      "Stock Options",
+      "Flexible Work Hours"
+    ],
     "mapUrl": ""
   },
   {
@@ -68,7 +76,11 @@
       "Strong communication and analytical skills"
     ],
     "salary": "$60,000 - $75,000 Per Year",
-    "benefits": ["Paid Time Off", "Health Insurance", "Training Programs"],
+    "benefits": [
+      "Paid Time Off",
+      "Health Insurance",
+      "Training Programs"
+    ],
     "mapUrl": ""
   },
   {
@@ -91,7 +103,11 @@
       "Excellent communication and presentation skills"
     ],
     "salary": "$85,000 - $95,000 Per Year",
-    "benefits": ["Health Insurance", "Remote Work Option", "Bonuses"],
+    "benefits": [
+      "Health Insurance",
+      "Remote Work Option",
+      "Bonuses"
+    ],
     "mapUrl": ""
   },
   {
@@ -114,7 +130,10 @@
       "Strong leadership and communication skills"
     ],
     "salary": "$90,000 - $110,000 Per Year",
-    "benefits": ["Remote Work Flexibility", "Performance Bonuses"],
+    "benefits": [
+      "Remote Work Flexibility",
+      "Performance Bonuses"
+    ],
     "mapUrl": ""
   },
   {
@@ -137,7 +156,11 @@
       "Understanding of front-end development basics"
     ],
     "salary": "$80,000 - $100,000 Per Year",
-    "benefits": ["Remote Work", "Health Insurance", "Creative Environment"],
+    "benefits": [
+      "Remote Work",
+      "Health Insurance",
+      "Creative Environment"
+    ],
     "mapUrl": ""
   },
   {
@@ -160,7 +183,11 @@
       "Strong analytical skills and attention to detail"
     ],
     "salary": "$70,000 - $85,000 Per Year",
-    "benefits": ["Health Insurance", "Flexible Schedule", "Training Programs"],
+    "benefits": [
+      "Health Insurance",
+      "Flexible Schedule",
+      "Training Programs"
+    ],
     "mapUrl": ""
   },
   {
@@ -183,7 +210,53 @@
       "Ability to work independently and meet deadlines"
     ],
     "salary": "$25 - $35 Per Hour",
-    "benefits": ["Remote Work", "Flexible Hours", "Performance Bonuses"],
+    "benefits": [
+      "Remote Work",
+      "Flexible Hours",
+      "Performance Bonuses"
+    ],
+    "mapUrl": ""
+  },
+  {
+    "id": "0d27eff5-0c06-492b-a69b-f9c8ec0de742",
+    "title": "w",
+    "company": "w",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "ww",
+    "responsibilities": [
+      "w"
+    ],
+    "department": "w",
+    "location": "w",
+    "type": "Part-Time",
+    "requirements": [
+      "w"
+    ],
+    "salary": "90",
+    "benefits": [
+      "w"
+    ],
+    "mapUrl": ""
+  },
+  {
+    "id": "92c7ecbb-a731-452e-9f74-0347bc59ea07",
+    "title": "ty",
+    "company": "gh",
+    "companyLogo": "https://storage.eliteresidences.cloud/bintu.png",
+    "description": "gh",
+    "responsibilities": [
+      "h"
+    ],
+    "department": "gh",
+    "location": "hg",
+    "type": "Part-Time",
+    "requirements": [
+      "gh"
+    ],
+    "salary": "7",
+    "benefits": [
+      "j"
+    ],
     "mapUrl": ""
   }
 ]

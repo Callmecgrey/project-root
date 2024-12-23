@@ -8,6 +8,10 @@ import authRoutes from './routes/authRoutes';
 import errorHandler from './utils/errorHandler';
 import dotenv from 'dotenv';
 import path from 'path';
+import connectDB from './config/db';
+
+// Connect to MongoDB
+connectDB();
 
 // Load environment variables from .env file
 dotenv.config({ path: path.resolve(__dirname, '../.env') });

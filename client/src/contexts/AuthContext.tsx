@@ -20,7 +20,8 @@ interface AuthProviderProps {
 }
 
 // Create the AuthProvider component without using React.FC
-export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
+export const AuthProvider = ({ children }: AuthProviderProps): React.ReactElement => {
+
     const [accessCode, setAccessCodeState] = useState<string | null>(null);
 
     useEffect(() => {
