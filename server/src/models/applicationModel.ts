@@ -1,21 +1,11 @@
-import mongoose, { Schema, Document } from 'mongoose';
+// src/models/applicationModel.ts
 
-export interface IApplication extends Document {
-    jobId: mongoose.Types.ObjectId; // Reference to the Job model
+export interface Application {
+    id: string;
+    jobId: string; // Reference to the Job ID
     applicantName: string;
     applicantEmail: string;
     coverLetter?: string;
-    resumeUrl: string;
-    appliedAt: Date;
+    resumeUrl: string; // URL to the uploaded resume in Cloudflare R2
+    appliedAt: string; // ISO date string
 }
-
-const ApplicationSchema: Schema = new Schema({
-    jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job', required: true },
-    applicantName: { type: String, required: true },
-    applicantEmail: { type: String, required: true },
-    coverLetter: { type: String },
-    resumeUrl: { type: String, required: true },
-    appliedAt: { type: Date, required: true, default: Date.now },
-});
-
-export default mongoose.model<IApplication>('Application', ApplicationSchema);
